@@ -12,9 +12,9 @@ Dir.mkdir IMG_FOLDER if !Dir.exist? IMG_FOLDER
 resp = RestClient.get("https://#{team_name}.slack.com/customize/emoji", Cookie: cookie)
 html = Nokogiri::HTML(resp)
 
-emojoy_regex = /https:\/\/.*(\/.*\/).*(png|jpg|gif)/
+emojoy_regex = /https:\/\/.*\/(.*)\/.*(png|jpg|gif)/
 emojoy_links = html.css('span.lazy.emoji-wrapper').map {|s| s['data-original'] }
-emojoy_names = emojoy_links.map {|l| emojoy_regex.match(l)[1][1...-1] }
+emojoy_names = emojoy_links.map {|l| emojoy_regex.match(l)[1] }
 emojoy_formats = emojoy_links.map {|l| emojoy_regex.match(l)[2] }
 
 emojoys = Array.new
